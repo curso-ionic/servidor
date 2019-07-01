@@ -9,6 +9,7 @@ app.use(cors())
 
 require('./passport');
 
+tags = ['Introduce yourself and say why you want to take this course', 'Name', 'Age', 'Prior knowledge, or taken course', 'Mobile development experience', 'General development experience'];
 
 app.post('/auth/login', (req, res) => {
     passport.authenticate('local', {session: false}, (err, user, info) => {
@@ -26,6 +27,16 @@ app.post('/auth/login', (req, res) => {
 app.get('/protegido', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.send(req.user);
 })
+
+app.get('/tags', passport.authenticate('jwt', { session: false }), (req, res) => {
+    res.json(tags);
+})
+
+app.post('/tags', passport.authenticate('jwt', { session: false }), (req, res) => {
+    tags.push(req.body.tag);
+    res.json(tags);
+})
+
 
 app.listen(3000, () => {
     console.log('Aplicacion escuchando en el puerto 3000');
