@@ -88,3 +88,41 @@ Agrega un nuevo tag y retorna un JSON con los tags cargados en el servidor.
 Se debe enviar el token recibido en el login en el encabezado de la petición
 
 ``` Authorization: Bearer <token> ```
+
+
+
+
+
+
+### Grabaciones
+
+
+#### POST /grabaciones
+
+Guarda la grabacion en el servidor.
+
+** Requiere autenticación **
+
+##### Petición
+
+```
+{
+    "archivo": "<nombre del archivo>",
+    "contenido": "<contenido del archivo en base64>,
+    "tags": [
+        "nombre": "<nombre de la etiqueta>",
+        "posiciones": [<lista de posiciones en donde aparece la etiqueta>]
+    ]
+}
+```
+
+##### Respuesta
+```
+status: ok
+```
+
+## Autenticación
+
+Se debe enviar el token recibido en el login en el encabezado de la petición
+
+``` Authorization: Bearer <token> ```

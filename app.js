@@ -2,10 +2,11 @@ const app = require('express')();
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const fs = require('fs');
 var cors = require('cors')
 
-app.use(bodyParser.json());
 app.use(cors())
+app.use(bodyParser.json());
 
 require('./passport');
 
@@ -35,6 +36,21 @@ app.get('/tags', passport.authenticate('jwt', { session: false }), (req, res) =>
 app.post('/tags', passport.authenticate('jwt', { session: false }), (req, res) => {
     tags.push(req.body.tag);
     res.json(tags);
+})
+
+app.post('/grabaciones', passport.authenticate('jwt', { session: false }), (req, res) => {
+    console.log(req.body);
+    const nombreArchivo = req.body.nombre;
+    const contenido = Buffer.from(req.body.contenido, 'base64');
+    const tags = req.body.tags;
+    filePath = __dirname + `/grabaciones/${nombreArchivo}`;
+    fs.writeFile(filePath, contenido, err => {
+        if (err) {
+            res.status(500).json({ status: 'error', message: 'No se pudo guardar el archivo' });
+        }
+        res.json({ status: 'ok' });
+    });
+    
 })
 
 
