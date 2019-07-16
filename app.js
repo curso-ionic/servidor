@@ -12,6 +12,10 @@ require('./passport');
 
 tags = ['Introduce yourself and say why you want to take this course', 'Name', 'Age', 'Prior knowledge, or taken course', 'Mobile development experience', 'General development experience'];
 
+app.get('/version', (req, res) => {
+    res.json({version: '1.4.1'});
+})
+
 app.post('/auth/login', (req, res) => {
     passport.authenticate('local', {session: false}, (err, user, info) => {
         if (err || !user) {
